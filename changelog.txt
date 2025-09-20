@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.3
+Date: 20.09.2025
+  Bugfixes:
+    - Properly hide Skip Quality Technologies startup setting
+  Features:
+    - Added a description to the Skip Quality Technologies startup setting
+---------------------------------------------------------------------------------------------------
 Version: 0.0.2
 Date: 20.09.2025
   Bugfixes:

@@ -1,4 +1,5 @@
 local space_age_active = mods["space-age"] ~= nil
+local quality_active = mods["quality"] ~= nil
 local order_counter = 0
 
 local function get_next_order()
@@ -45,6 +46,6 @@ data:extend({
         setting_type = "startup",
         default_value = false,
         order = get_next_order(),
-        hidden = not space_age_active
+        hidden = not quality_active
     },
 })
