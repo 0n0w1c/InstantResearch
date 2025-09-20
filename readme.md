@@ -8,11 +8,11 @@ A developer tool for instantly completing technology research
 - Startup settings let you:  
   - Choose which technologies are instantly researched by science pack  
     (Any technology that only requires the selected science packs will be instantly researched)
-  - Include the technologies which do not require science packs 
-  - Exclude quality modules 
+  - Include trigger technologies
+  - Skip Quality technologies 
 
 ## How to Use
 1. Enable the shortcut toggle (default: on)  
-2. When research is queued, a dialog box will appear  
+2. When research is enqueued, a dialog box will appear  
 3. Choose **Yes** to instantly complete the research, or **No** to leave it in the queue  
 4. For infinite technologies, set the level before confirming  
