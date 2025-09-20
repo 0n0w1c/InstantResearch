@@ -239,8 +239,8 @@ local function remove_from_research_queue(force, tech_name)
 
     local updated_queue = {}
     for _, queued_item in ipairs(current_queue) do
-        local queued_name = (type(queued_item) == "string") and queued_item or (queued_item and queued_item.name)
-        if queued_name ~= tech_name then
+        local queued_name = queued_item.name
+        if queued_name and queued_name ~= tech_name then
             table.insert(updated_queue, queued_item)
         end
     end
