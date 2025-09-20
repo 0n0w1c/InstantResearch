@@ -1,4 +1,4 @@
-# InstantResearch
+# Instant Research
 
 A developer tool for instantly completing technology research
 
