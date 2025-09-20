@@ -43,7 +43,7 @@ data:extend({
         type = "bool-setting",
         name = "instant-research-skip-quality-module",
         setting_type = "startup",
-        default_value = true,
+        default_value = false,
         order = get_next_order(),
         hidden = not space_age_active
     },
