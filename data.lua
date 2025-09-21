@@ -1,8 +1,10 @@
+require("constants")
+
 data:extend({
     {
         type = "sprite",
         name = "instant-research-icon",
-        filename = "__InstantResearch__/graphics/icons/instant-research-64.png",
+        filename = MOD_PATH .. "/graphics/icons/instant-research-64.png",
         size = 64,
         mipmap_count = 2,
         flags = { "gui-icon" }
@@ -14,9 +16,9 @@ data:extend({
         action = "lua",
         toggleable = true,
         style = "default",
-        icon = "__InstantResearch__/graphics/icons/instant-research-32.png",
+        icon = MOD_PATH .. "/graphics/icons/instant-research-32.png",
         icon_size = 32,
-        small_icon = "__InstantResearch__/graphics/icons/instant-research-24.png",
+        small_icon = MOD_PATH .. "/graphics/icons/instant-research-24.png",
         small_icon_size = 24,
     }
 })

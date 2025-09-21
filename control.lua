@@ -1,29 +1,16 @@
-local quality_techs = {
-    ["quality-module"] = true,
-    ["quality-module-2"] = true,
-    ["quality-module-3"] = true,
-    ["epic-quality"] = true,
-    ["legendary-quality"] = true
-}
-
-local cached_science_packs
+require("constants")
 
 local function is_infinite_tech(tech)
-    local infinite = 4294967295
     local prototype = tech and tech.prototype
     if not prototype then return false end
 
-    return prototype.max_level == infinite
+    return (prototype.max_level == INFINITE)
 end
 
-local function current_tech_level(tech)
-    return (tech.level) or (tech.prototype and tech.prototype.level) or 1
-end
+local function complete_infinite_to_level(force, tech, current_level, target_level)
+    if not (current_level and target_level) or target_level < current_level then return end
 
-local function complete_infinite_to_level(force, tech, cur, target_level)
-    if not (cur and target_level) or target_level < cur then return end
-
-    local count = target_level - cur
+    local count = target_level - current_level
     for i = 1, count do
         force.add_research(tech)
         force.research_progress = 1
@@ -46,7 +33,7 @@ end
 
 local function tech_and_prereqs_included(tech, included_set, include_free, skip_quality, visited)
     if is_infinite_tech(tech) then return false end
-    if quality_techs[tech.name] and skip_quality then return false end
+    if QUALITY_TECHS[tech.name] and skip_quality then return false end
     if visited[tech.name] then return true end
     visited[tech.name] = true
 
@@ -63,48 +50,37 @@ local function tech_and_prereqs_included(tech, included_set, include_free, skip_
 end
 
 local function get_all_includable_science_packs()
-    if cached_science_packs then return cached_science_packs end
+    local prefix = "instant-research-include-"
+    local list = {}
 
-    cached_science_packs = {
-        "automation-science-pack",
-        "logistic-science-pack",
-        "military-science-pack",
-        "chemical-science-pack",
-        "production-science-pack",
-        "utility-science-pack",
-        "space-science-pack"
-    }
-
-    if script.active_mods["space-age"] then
-        table.insert(cached_science_packs, "metallurgic-science-pack")
-        table.insert(cached_science_packs, "electromagnetic-science-pack")
-        table.insert(cached_science_packs, "agricultural-science-pack")
-        table.insert(cached_science_packs, "cryogenic-science-pack")
-        table.insert(cached_science_packs, "promethium-science-pack")
+    for setting_name, _ in pairs(settings.startup) do
+        if setting_name:sub(1, 25) == prefix then
+            local pack = setting_name:sub(26)
+            if pack ~= "free-techs" then
+                table.insert(list, pack)
+            end
+        end
     end
 
-    return cached_science_packs
+    return list
 end
 
 local function get_included_science_packs()
     local included = {}
+
     for _, science_pack in ipairs(get_all_includable_science_packs()) do
         local setting = settings.startup["instant-research-include-" .. science_pack]
         if setting and setting.value then
-            table.insert(included, science_pack)
+            included[science_pack] = true
         end
     end
+
     return included
 end
 
 local function instant_research()
     local included_packs = get_included_science_packs()
-    if #included_packs == 0 then return end
-
-    local included_set = {}
-    for _, pack in ipairs(included_packs) do
-        included_set[pack] = true
-    end
+    if not included_packs then return end
 
     local skip_quality = settings.startup["instant-research-skip-quality-module"]
         and settings.startup["instant-research-skip-quality-module"].value
@@ -116,7 +92,7 @@ local function instant_research()
         for _, tech in pairs(force.technologies) do
             if tech.enabled and not tech.researched and not is_infinite_tech(tech) then
                 local visited = {}
-                if tech_and_prereqs_included(tech, included_set, include_free, skip_quality, visited) then
+                if tech_and_prereqs_included(tech, included_packs, include_free, skip_quality, visited) then
                     tech.research_recursive()
                 end
             end
@@ -180,7 +156,7 @@ local function show_instant_research_gui(player, tech)
             numeric = true,
             allow_decimal = false,
             allow_negative = false,
-            text = tostring(current_tech_level(tech))
+            text = tostring(tech.level)
         }
         textfield.style.width = 80
     end
@@ -218,7 +194,7 @@ script.on_event(defines.events.on_gui_click, function(event)
                 local row       = content and content.instant_research_level_row
                 local textfield = row and row.instant_research_level_textfield
                 local target    = textfield and tonumber((textfield.text or ""):match("%d+"))
-                local current   = current_tech_level(tech)
+                local current   = tech.level
                 if target and target >= current then
                     complete_infinite_to_level(force, tech, current, target)
                 end
@@ -255,7 +231,7 @@ script.on_event(defines.events.on_research_queued, function(event)
     local skip_quality = settings.startup["instant-research-skip-quality-module"]
         and settings.startup["instant-research-skip-quality-module"].value
 
-    if skip_quality and quality_techs[tech.name] then
+    if skip_quality and QUALITY_TECHS[tech.name] then
         tech.force.cancel_current_research()
         remove_from_research_queue(tech.force, tech.name)
         return

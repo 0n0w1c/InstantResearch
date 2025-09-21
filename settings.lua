@@ -1,38 +1,64 @@
-local space_age_active = mods["space-age"] ~= nil
-local quality_active = mods["quality"] ~= nil
+require("constants")
+
+local function list_append(dst, src)
+    for _, v in ipairs(src) do
+        table.insert(dst, v)
+    end
+    return dst
+end
+
+local quality_active = mods["quality"] ~= nil and mods["no-more-quality"] == nil
 local order_counter = 0
+
+SCIENCE_PACKS = {
+    "automation-science-pack",
+    "logistic-science-pack",
+    "military-science-pack",
+    "chemical-science-pack",
+    "production-science-pack",
+    "utility-science-pack",
+    "space-science-pack"
+}
+
+if mods["space-age"] then
+    local packs = {
+        "metallurgic-science-pack",
+        "electromagnetic-science-pack",
+        "agricultural-science-pack",
+        "cryogenic-science-pack",
+        "promethium-science-pack"
+    }
+
+    list_append(SCIENCE_PACKS, packs)
+end
+
+--
+-- Add if-blocks here, for new science packs
+-- then update locale.cfg
+--
 
 local function get_next_order()
     order_counter = order_counter + 1
     return string.format("a-%03d", order_counter)
 end
 
-local function make_science_setting(name, hidden)
+local function make_science_setting(name)
     return {
         type = "bool-setting",
         name = "instant-research-include-" .. name,
         setting_type = "startup",
         default_value = false,
         order = get_next_order(),
-        hidden = hidden
     }
 end
 
+for _, pack in ipairs(SCIENCE_PACKS) do
+    data:extend({
+        make_science_setting(pack)
+    })
+end
+
 data:extend({
-    make_science_setting("automation-science-pack", false),
-    make_science_setting("logistic-science-pack", false),
-    make_science_setting("military-science-pack", false),
-    make_science_setting("chemical-science-pack", false),
-    make_science_setting("production-science-pack", false),
-    make_science_setting("utility-science-pack", false),
-    make_science_setting("space-science-pack", false),
-
-    make_science_setting("metallurgic-science-pack", not space_age_active),
-    make_science_setting("electromagnetic-science-pack", not space_age_active),
-    make_science_setting("agricultural-science-pack", not space_age_active),
-    make_science_setting("cryogenic-science-pack", not space_age_active),
-    make_science_setting("promethium-science-pack", not space_age_active),
-
     {
         type = "bool-setting",
         name = "instant-research-include-free-techs",

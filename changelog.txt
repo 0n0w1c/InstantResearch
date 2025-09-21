@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.4
+Date: 21.09.2025
+  Bugfixes:
+    - Refactored
+  Features:
+    - Hides Skip Quality Technologies startup setting hidden if No More Quality is active
+    - Easy to extend for new science packs (add if-block in settings.lua and update locale.cfg)
+---------------------------------------------------------------------------------------------------
 Version: 0.0.3
 Date: 20.09.2025
   Bugfixes:

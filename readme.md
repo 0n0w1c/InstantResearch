@@ -16,3 +16,7 @@ A developer tool for instantly completing technology research
 2. When research is enqueued, a dialog box will appear  
 3. Choose **Yes** to instantly complete the research, or **No** to leave it in the queue  
 4. For infinite technologies, set the level before confirming  
+
+## How to Extend
+1. To add a new science pack, add an if-block to settings.lua
+2. Update locale.cfg
