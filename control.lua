@@ -15,19 +15,23 @@ local function complete_infinite_to_level(force, tech, current_level, target_lev
         force.add_research(tech)
         force.research_progress = 1
     end
+
     force.research_progress = 1
 end
 
 local function tech_requires_included_packs(tech, included_set, include_free)
     local required_packs = tech.research_unit_ingredients
+
     if not required_packs or #required_packs == 0 then
         return include_free
     end
+
     for _, ingredient in ipairs(required_packs) do
         if not included_set[ingredient.name] then
             return false
         end
     end
+
     return true
 end
 
@@ -46,6 +50,7 @@ local function tech_and_prereqs_included(tech, included_set, include_free, skip_
             return false
         end
     end
+
     return true
 end
 
@@ -239,8 +244,10 @@ script.on_event(defines.events.on_research_queued, function(event)
 
     local player_index = event.player_index
     if not player_index then return end
+
     local player = game.get_player(player_index)
     if not player then return end
+
     if not player.is_shortcut_toggled("instant-research-toggle") then return end
 
     show_instant_research_gui(player, tech)
@@ -266,6 +273,5 @@ script.on_init(function()
 end)
 
 script.on_configuration_changed(function()
-    cached_science_packs = nil
     instant_research()
 end)

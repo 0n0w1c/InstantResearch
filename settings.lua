@@ -32,10 +32,11 @@ if mods["space-age"] then
     list_append(SCIENCE_PACKS, packs)
 end
 
---
--- Add if-blocks here, for new science packs
--- then update locale.cfg
---
+---
+--    1. Add if-blocks here, for new science packs (see space-age if-block above)
+--    2. Update locale.cfg
+--    3. Add an optional dependency in info.json
+---
 
 local function get_next_order()
     order_counter = order_counter + 1

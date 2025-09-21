@@ -20,3 +20,4 @@ A developer tool for instantly completing technology research
 ## How to Extend
 1. To add a new science pack, add an if-block to settings.lua
 2. Update locale.cfg
+3. Add optional dependency in info.json

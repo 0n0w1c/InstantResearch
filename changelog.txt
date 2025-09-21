@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.0.5
+Date: 21.09.2025
+  Bugfixes:
+    - Code cleanup
+    - Added additonal instruction: Step 3 when adding new science packs
+  Features:
+    - None
+---------------------------------------------------------------------------------------------------
 Version: 0.0.4
 Date: 21.09.2025
   Bugfixes:
