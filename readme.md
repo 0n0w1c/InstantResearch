@@ -11,13 +11,13 @@ A developer tool for instantly completing technology research
   - Include trigger technologies
   - Skip Quality technologies 
 
-## How to Use
+## How to use
 1. Enable the shortcut toggle (default: on)  
 2. When research is enqueued, a dialog box will appear  
 3. Choose **Yes** to instantly complete the research, or **No** to leave it in the queue  
 4. For infinite technologies, set the level before confirming  
 
-## How to Extend
-1. To add a new science pack, add an if-block to settings.lua
+## How to add science packs
+1. Add an if-block to settings.lua
 2. Update locale.cfg
 3. Add optional dependency in info.json
